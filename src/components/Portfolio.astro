@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+export interface Props { portfolio: CollectionEntry<'portfolio'>['data'][]; }
+const { portfolio } = Astro.props;
+---
+<section id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">Selected work</div>
+        <h2 class="section-title reveal"><span class="reveal-inner">A look at what we do.</span></h2>
+      </div>
+      <p class="section-note">A place to showcase real projects and results. Add and manage these through the CMS.</p>
+    </div>
+    <div class="portfolio-grid">
+      {portfolio.map((p, i) => {
+        const Tag = p.link ? 'a' : 'div';
+        return (
+          <Tag class="p-item" data-hover {...(p.link ? { href: p.link, target: '_blank', rel: 'noopener' } : {})}>
+            <div class="p-reveal"></div>
+            <div class="p-index">{String(i + 1).padStart(2, '0')}</div>
+            <div class="p-name">{p.name}</div>
+            <div class="p-meta"><span>{p.category}</span><span>{p.result}</span></div>
+          </Tag>
+        );
+      })}
+    </div>
+  </div>
+</section>

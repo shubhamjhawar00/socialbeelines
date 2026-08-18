@@ -1,0 +1,32 @@
+/* ============================================================
+   LOCKED BRAND TOKENS — DO NOT CHANGE
+   Ported verbatim from the approved Social Beelines template.
+   These values are the single source of truth for brand color.
+   They MUST NOT be altered and are NOT exposed to the CMS or any
+   theming configuration (see requirements 1.10 / 1.11, Property 1).
+   ============================================================ */
+:root {
+  --blue: #096ac7;
+  --blue-90: rgba(9, 106, 199, 0.9);
+  --blue-80: rgba(9, 106, 199, 0.8);
+  --blue-70: rgba(9, 106, 199, 0.7);
+  --blue-60: rgba(9, 106, 199, 0.6);
+  --blue-50: rgba(9, 106, 199, 0.5);
+  --blue-40: rgba(9, 106, 199, 0.4);
+  --blue-30: rgba(9, 106, 199, 0.3);
+  --blue-20: rgba(9, 106, 199, 0.2);
+  --blue-10: rgba(9, 106, 199, 0.1);
+
+  --cream: #f5f6ec;
+  --cream-90: rgba(245, 246, 236, 0.9);
+  --cream-80: rgba(245, 246, 236, 0.8);
+  --cream-70: rgba(245, 246, 236, 0.7);
+  --cream-60: rgba(245, 246, 236, 0.6);
+  --cream-50: rgba(245, 246, 236, 0.5);
+  --cream-40: rgba(245, 246, 236, 0.4);
+  --cream-30: rgba(245, 246, 236, 0.3);
+  --cream-20: rgba(245, 246, 236, 0.2);
+  --cream-10: rgba(245, 246, 236, 0.1);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}

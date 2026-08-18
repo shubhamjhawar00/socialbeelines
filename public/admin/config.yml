@@ -1,0 +1,197 @@
+# Decap CMS configuration.
+# Editing is restricted to the structured fields below. No colour, logo, layout,
+# or code fields are exposed — the brand palette stays locked (Req 1.11, 3.4).
+backend:
+  name: git-gateway
+  branch: main
+
+# Uploaded media lands in the repo and is served from /images/uploads.
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+publish_mode: editorial_workflow
+
+collections:
+  # ---------- Blog (create / edit / publish / unpublish) ----------
+  - name: blog
+    label: "Blog Posts"
+    label_singular: "Blog Post"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    identifier_field: title
+    summary: "{{title}} — {{publishDate}}"
+    sortable_fields: [publishDate, title]
+    fields:
+      - { name: title, label: "Title", widget: string }
+      - { name: excerpt, label: "Excerpt / summary", widget: text }
+      - { name: author, label: "Author", widget: string, default: "Social Beelines" }
+      - { name: publishDate, label: "Publish date", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: coverImage, label: "Cover image", widget: image, required: false }
+      - { name: tags, label: "Tags", widget: list, required: false }
+      - { name: draft, label: "Draft (unpublished)", widget: boolean, default: false }
+      - { name: body, label: "Body", widget: markdown }
+
+  # ---------- Services ----------
+  - name: services
+    label: "Services"
+    label_singular: "Service"
+    folder: "src/content/services"
+    create: true
+    extension: json
+    format: json
+    identifier_field: name
+    fields:
+      - { name: order, label: "Order", widget: number, value_type: int }
+      - { name: name, label: "Service name", widget: string }
+      - { name: tag, label: "Short tag", widget: string }
+      - { name: description, label: "Description", widget: text }
+      - { name: bullets, label: "Detail points", widget: list, required: false }
+
+  # ---------- Packages ----------
+  - name: packages
+    label: "Packages"
+    label_singular: "Package"
+    folder: "src/content/packages"
+    create: true
+    extension: json
+    format: json
+    identifier_field: name
+    fields:
+      - { name: order, label: "Order", widget: number, value_type: int }
+      - { name: name, label: "Package name", widget: string }
+      - { name: priceLabel, label: "Price label (e.g. ₹9,000)", widget: string, required: false }
+      - { name: period, label: "Billing period", widget: string, default: "month", required: false }
+      - { name: isCustom, label: "Is custom package?", widget: boolean, default: false }
+      - { name: featured, label: "Highlight this package?", widget: boolean, default: false }
+      - { name: features, label: "Feature list", widget: list }
+      - { name: ctaLabel, label: "Button label", widget: string, default: "Enquire" }
+
+  # ---------- Testimonials ----------
+  - name: testimonials
+    label: "Testimonials"
+    label_singular: "Testimonial"
+    folder: "src/content/testimonials"
+    create: true
+    extension: json
+    format: json
+    identifier_field: personName
+    fields:
+      - { name: order, label: "Order", widget: number, value_type: int }
+      - { name: quote, label: "Quote", widget: text }
+      - { name: personName, label: "Person name", widget: string }
+      - { name: personRole, label: "Role / business", widget: string }
+      - { name: avatarImage, label: "Avatar image", widget: image, required: false }
+
+  # ---------- Portfolio ----------
+  - name: portfolio
+    label: "Portfolio / Work"
+    label_singular: "Project"
+    folder: "src/content/portfolio"
+    create: true
+    extension: json
+    format: json
+    identifier_field: name
+    fields:
+      - { name: order, label: "Order", widget: number, value_type: int }
+      - { name: name, label: "Project name", widget: string }
+      - { name: category, label: "Category", widget: string }
+      - { name: result, label: "Result / note", widget: string }
+      - { name: coverImage, label: "Cover image", widget: image, required: false }
+      - { name: link, label: "External link", widget: string, required: false }
+
+  # ---------- Social links ----------
+  - name: social
+    label: "Social Links"
+    label_singular: "Social Link"
+    folder: "src/content/social"
+    create: true
+    extension: json
+    format: json
+    identifier_field: platform
+    fields:
+      - { name: order, label: "Order", widget: number, value_type: int }
+      - { name: platform, label: "Platform", widget: string }
+      - { name: label, label: "Short label (e.g. IG)", widget: string }
+      - { name: url, label: "URL", widget: string }
+
+  # ---------- Site content (singletons) ----------
+  - name: site
+    label: "Site Content"
+    files:
+      - name: hero
+        label: "Hero section"
+        file: "src/content/hero/main.json"
+        fields:
+          - { name: eyebrow, label: "Eyebrow text", widget: string }
+          - name: titleLines
+            label: "Title lines"
+            widget: list
+            fields:
+              - name: "words"
+                label: "Words in this line"
+                widget: list
+                fields:
+                  - { name: text, label: "Word", widget: string }
+                  - { name: accent, label: "Accent style?", widget: boolean, default: false }
+          - { name: description, label: "Description", widget: text }
+          - { name: ctaLabel, label: "Button label", widget: string }
+          - { name: ctaHref, label: "Button link", widget: string }
+          - { name: heroImage, label: "Hero image", widget: image, required: false }
+      - name: contact
+        label: "Contact details"
+        file: "src/content/contact/main.json"
+        fields:
+          - { name: email, label: "Email", widget: string }
+          - { name: phone, label: "Phone (display)", widget: string }
+          - { name: phoneHref, label: "Phone link (tel:)", widget: string }
+          - { name: ctaKicker, label: "CTA kicker", widget: string }
+          - { name: ctaHeadline, label: "CTA headline", widget: string }
+          - { name: ctaHeadlineEm, label: "CTA headline (emphasis)", widget: string, required: false }
+          - { name: footerBlurb, label: "Footer blurb", widget: text }
+      - name: whyus
+        label: "Why Us section"
+        file: "src/content/whyus/main.json"
+        fields:
+          - { name: kicker, label: "Kicker", widget: string }
+          - { name: heading, label: "Heading", widget: string }
+          - { name: body, label: "Body", widget: text }
+          - name: stats
+            label: "Stats"
+            widget: list
+            fields:
+              - { name: num, label: "Number", widget: string }
+              - { name: label, label: "Label", widget: string }
+          - { name: panelTop, label: "Panel top label", widget: string }
+          - { name: panelHeadline, label: "Panel headline", widget: text }
+          - { name: panelNote, label: "Panel note", widget: string }
+      - name: process
+        label: "Process (How we work)"
+        file: "src/content/process/main.json"
+        fields:
+          - { name: kicker, label: "Kicker", widget: string }
+          - { name: heading, label: "Heading", widget: string }
+          - { name: note, label: "Note", widget: text }
+          - name: steps
+            label: "Steps"
+            widget: list
+            fields:
+              - { name: num, label: "Number", widget: string }
+              - { name: title, label: "Title", widget: string }
+              - { name: body, label: "Body", widget: text }
+      - name: marquee
+        label: "Marquee strip"
+        file: "src/content/marquee/main.json"
+        fields:
+          - { name: items, label: "Marquee items", widget: list }
+      - name: seo
+        label: "SEO & Analytics"
+        file: "src/content/seo/main.json"
+        fields:
+          - { name: siteTitle, label: "Site title", widget: string }
+          - { name: titleTemplate, label: "Title template (use %s)", widget: string }
+          - { name: defaultDescription, label: "Default description", widget: text }
+          - { name: ogImage, label: "Default social image", widget: image, required: false }
+          - { name: analyticsId, label: "Analytics ID (e.g. G-XXXX)", widget: string, required: false }

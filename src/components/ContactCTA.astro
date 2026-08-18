@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import LeadForm from './LeadForm.astro';
+export interface Props { contact: CollectionEntry<'contact'>['data']; }
+const { contact } = Astro.props;
+---
+<section id="contact" style="padding-top:0;">
+  <div class="cta-section">
+    <div class="dash-circle float-shape" style="width:420px;height:420px;top:-140px;left:-140px;" aria-hidden="true"></div>
+    <div class="dash-circle float-shape" style="width:220px;height:220px;bottom:-80px;right:8%;" aria-hidden="true"></div>
+    <div class="cta-inner">
+      <div>
+        <div class="cta-kicker">{contact.ctaKicker}</div>
+        <h2 class="cta-title">{contact.ctaHeadline} {contact.ctaHeadlineEm && <em>{contact.ctaHeadlineEm}</em>}</h2>
+        <div class="cta-contactline">
+          <a href={`mailto:${contact.email}`} data-hover>{contact.email}</a>
+          <a href={contact.phoneHref} data-hover>{contact.phone}</a>
+        </div>
+      </div>
+      <div>
+        <LeadForm />
+      </div>
+    </div>
+  </div>
+</section>

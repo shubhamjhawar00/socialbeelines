@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content';
+export interface Props { process: CollectionEntry<'process'>['data']; }
+const { process } = Astro.props;
+---
+<section id="process" style="padding-bottom:0;">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:40px;">
+      <div>
+        <div class="kicker">{process.kicker}</div>
+        <h2 class="section-title reveal"><span class="reveal-inner">{process.heading}</span></h2>
+      </div>
+      <p class="section-note">{process.note}</p>
+    </div>
+  </div>
+  <div class="process-pin">
+    <div class="process-sticky">
+      <div class="wrap">
+        <div class="process-track" id="processTrack">
+          {process.steps.map((s, i) => (
+            <div class="process-step" data-i={i}>
+              <div class="process-bignum">{s.num}</div>
+              <div class="process-text"><h3>{s.title}</h3><p>{s.body}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="process-line"><div class="process-line-fill" id="processFill"></div></div>
+      <div class="process-dots" id="processDots">
+        {process.steps.map(() => <span></span>)}
+      </div>
+    </div>
+  </div>
+</section>

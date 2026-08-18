@@ -1,0 +1,11 @@
+{
+  "kicker": "How we work",
+  "heading": "We start with your requirement.",
+  "note": "We understand the requirement first, then build a scope of work around it — instead of pushing a fixed package.",
+  "steps": [
+    { "num": "01", "title": "Understand", "body": "We start by understanding your requirement instead of pushing a package, so the scope genuinely fits your business and goals." },
+    { "num": "02", "title": "Plan", "body": "We collect the business details, confirm the preferred service duration, and prepare a scope of work built around what you need." },
+    { "num": "03", "title": "Create", "body": "We handle multiple creative and digital requirements under one team, keeping everything consistent across your brand and social presence." },
+    { "num": "04", "title": "Refine", "body": "We review any changes or additional requirements, finalize the scope, and proceed with onboarding." }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "order": 3,
+  "name": "Premium",
+  "priceLabel": "₹17,000",
+  "period": "month",
+  "isCustom": false,
+  "featured": false,
+  "features": [
+    "Everything in Standard",
+    "Broader creative & digital coverage",
+    "Priority support from the team",
+    "Scope customized to your needs"
+  ],
+  "ctaLabel": "Enquire"
+}

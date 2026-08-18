@@ -1,0 +1,116 @@
+---
+// Netlify Forms lead capture. Fields map to requirement 5.1.
+// Spam protection: honeypot (bot-field) + optional reCAPTCHA.
+const durations = ['Monthly', 'Quarterly', '6 Months'];
+---
+<form
+  name="lead"
+  method="POST"
+  action="/thank-you"
+  class="lead-form"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  data-lead-form
+  novalidate
+>
+  <input type="hidden" name="form-name" value="lead" />
+  <p class="hp-field" aria-hidden="true">
+    <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="row">
+    <div class="field">
+      <label for="lf-brand">Business / Brand name <span class="req">*</span></label>
+      <input id="lf-brand" name="brand_name" required />
+      <span class="error-msg">Please enter your business or brand name.</span>
+    </div>
+    <div class="field">
+      <label for="lf-industry">Industry / Business type</label>
+      <input id="lf-industry" name="industry" />
+      <span class="error-msg"></span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="lf-profiles">Instagram / Facebook / Website (if any)</label>
+    <input id="lf-profiles" name="existing_profiles" placeholder="Links or handles" />
+    <span class="error-msg"></span>
+  </div>
+
+  <div class="field">
+    <label for="lf-services">Services you're looking for <span class="req">*</span></label>
+    <input id="lf-services" name="services_needed" required placeholder="e.g. Social media management, Reels, Meta Ads" />
+    <span class="error-msg">Please tell us which services you're interested in.</span>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="lf-challenges">Current challenges</label>
+      <textarea id="lf-challenges" name="challenges"></textarea>
+      <span class="error-msg"></span>
+    </div>
+    <div class="field">
+      <label for="lf-goals">Main goals</label>
+      <textarea id="lf-goals" name="goals"></textarea>
+      <span class="error-msg"></span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="lf-content">Content / design needs</label>
+      <input id="lf-content" name="content_needs" />
+      <span class="error-msg"></span>
+    </div>
+    <div class="field">
+      <label for="lf-photo">Photography / videography needs</label>
+      <input id="lf-photo" name="photo_video_needs" />
+      <span class="error-msg"></span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="lf-sales">Sales calling / telecalling needs</label>
+      <input id="lf-sales" name="sales_calling_needs" />
+      <span class="error-msg"></span>
+    </div>
+    <div class="field">
+      <label for="lf-duration">Preferred duration <span class="req">*</span></label>
+      <select id="lf-duration" name="preferred_duration" required>
+        <option value="">Select…</option>
+        {durations.map((d) => <option value={d}>{d}</option>)}
+      </select>
+      <span class="error-msg">Please choose a preferred duration.</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="lf-budget">Budget (optional)</label>
+      <input id="lf-budget" name="budget" />
+      <span class="error-msg"></span>
+    </div>
+    <div class="field">
+      <label for="lf-followup">Preferred follow-up time</label>
+      <input id="lf-followup" name="preferred_followup" placeholder="e.g. Weekday mornings" />
+      <span class="error-msg"></span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="lf-email">Email <span class="req">*</span></label>
+      <input id="lf-email" name="email" type="email" required />
+      <span class="error-msg">Please enter a valid email address.</span>
+    </div>
+    <div class="field">
+      <label for="lf-phone">Phone <span class="req">*</span></label>
+      <input id="lf-phone" name="phone" type="tel" required />
+      <span class="error-msg">Please enter a contact number.</span>
+    </div>
+  </div>
+
+  <button type="submit" class="form-submit" data-hover>Send enquiry</button>
+  <p class="form-status" role="status" aria-live="polite" data-form-status></p>
+</form>

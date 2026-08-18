@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from 'astro:content';
+export interface Props { testimonials: CollectionEntry<'testimonials'>['data'][]; }
+const { testimonials } = Astro.props;
+const prev = 'M15 18L9 12L15 6';
+const next = 'M9 18L15 12L9 6';
+---
+<section id="testimonials">
+  <div class="wrap test-wrap">
+    <div class="kicker">In their words</div>
+    <div class="test-quote-mark" aria-hidden="true">&ldquo;</div>
+    <div id="testSlides" aria-live="polite">
+      {testimonials.map((t, i) => (
+        <div class:list={['test-slide', { active: i === 0 }]} data-i={i} data-name={t.personName} data-role={t.personRole}>
+          <p class="test-quote">{t.quote}</p>
+        </div>
+      ))}
+    </div>
+    <div class="test-foot">
+      <div class="test-person">
+        <div class="test-avatar" id="testAvatar">{testimonials[0]?.personName?.charAt(0) ?? 'S'}</div>
+        <div>
+          <div class="test-person-name" id="testName">{testimonials[0]?.personName}</div>
+          <div class="test-person-role" id="testRole">{testimonials[0]?.personRole}</div>
+        </div>
+      </div>
+      {testimonials.length > 1 && (
+        <div class="test-nav">
+          <button id="testPrev" type="button" aria-label="Previous testimonial" data-hover><svg viewBox="0 0 24 24" fill="none"><path d={prev} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button id="testNext" type="button" aria-label="Next testimonial" data-hover><svg viewBox="0 0 24 24" fill="none"><path d={next} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      )}
+    </div>
+  </div>
+</section>

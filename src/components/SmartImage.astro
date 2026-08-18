@@ -1,0 +1,69 @@
+---
+/**
+ * Renders an image from a configurable Image_Slot.
+ * - If `src` is empty/undefined, renders a defined placeholder (Req 6.2).
+ * - Requires `alt` for non-decorative images; decorative images pass decorative
+ *   and get alt="" (Req 2.3, 6.5).
+ */
+interface Props {
+  src?: string;
+  alt?: string;
+  decorative?: boolean;
+  class?: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  placeholderLabel?: string;
+}
+const {
+  src,
+  alt,
+  decorative = false,
+  class: className,
+  width,
+  height,
+  loading = 'lazy',
+  placeholderLabel = 'Image',
+} = Astro.props;
+
+if (!decorative && (alt === undefined || alt === null)) {
+  throw new Error('SmartImage: non-decorative images require an `alt` text. Pass decorative for decorative images.');
+}
+const resolvedAlt = decorative ? '' : (alt as string);
+const hasImage = typeof src === 'string' && src.trim().length > 0;
+---
+{hasImage ? (
+  <img
+    src={src}
+    alt={resolvedAlt}
+    class={className}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding="async"
+  />
+) : (
+  <div class:list={['img-placeholder', className]} role={decorative ? 'presentation' : 'img'} aria-label={decorative ? undefined : resolvedAlt || placeholderLabel}>
+    <span>{placeholderLabel}</span>
+  </div>
+)}
+
+<style>
+  .img-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 120px;
+    background:
+      repeating-linear-gradient(45deg, var(--blue-10), var(--blue-10) 12px, transparent 12px, transparent 24px),
+      var(--cream);
+    border: 1px dashed var(--blue-30);
+    color: var(--blue-50);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+</style>

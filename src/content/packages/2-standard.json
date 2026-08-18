@@ -1,0 +1,15 @@
+{
+  "order": 2,
+  "name": "Standard",
+  "priceLabel": "₹13,000",
+  "period": "month",
+  "isCustom": false,
+  "featured": true,
+  "features": [
+    "Everything in Basic",
+    "More content & design output",
+    "Reels & video editing",
+    "Scope customized to your needs"
+  ],
+  "ctaLabel": "Enquire"
+}

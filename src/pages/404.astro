@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+---
+<BaseLayout title="Page not found">
+  <Nav />
+  <main id="top" style="min-height:70vh;display:flex;align-items:center;">
+    <div class="wrap" style="text-align:center;width:100%;">
+      <div class="kicker" style="justify-content:center;">404</div>
+      <h1 class="blog-hero-title" style="margin:20px 0;">This page flew off.</h1>
+      <p style="color:var(--blue-70);font-weight:500;margin-bottom:36px;">The page you're looking for doesn't exist or was moved.</p>
+      <div class="magnetic" data-magnetic style="display:inline-block;">
+        <a href="/" class="hero-cta" data-hover style="display:inline-flex;">Back home</a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

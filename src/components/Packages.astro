@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from 'astro:content';
+export interface Props { packages: CollectionEntry<'packages'>['data'][]; contactHref?: string; }
+const { packages, contactHref = '#contact' } = Astro.props;
+---
+<section id="packages">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">Packages</div>
+        <h2 class="section-title reveal"><span class="reveal-inner">Starting points, not straitjackets.</span></h2>
+      </div>
+      <p class="section-note">Monthly starting prices in Indian Rupees. Most work is customized — we shape the scope around your requirement.</p>
+    </div>
+    <div class="pkg-grid">
+      {packages.map((p) => (
+        <div class:list={['pkg-card', { featured: p.featured }]}>
+          <div class="pkg-name">{p.name}</div>
+          {p.isCustom ? (
+            <div class="pkg-price">Let's talk</div>
+          ) : (
+            <div>
+              <div class="pkg-starting">Starting at</div>
+              <div class="pkg-price">{p.priceLabel}<small> /{p.period}</small></div>
+            </div>
+          )}
+          <ul class="pkg-features">{p.features.map((f) => <li>{f}</li>)}</ul>
+          <a href={contactHref} class="pkg-cta" data-hover>{p.ctaLabel}</a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

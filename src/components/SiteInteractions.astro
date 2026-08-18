@@ -1,0 +1,206 @@
+---
+// Progressive-enhancement layer: preloader, custom cursor, magnetic buttons,
+// hero reveal, scroll reveals, pinned process, service accordion, testimonial
+// slider, and lead-form validation. All degrade gracefully without JS/GSAP and
+// respect prefers-reduced-motion.
+---
+<div class="preloader" id="preloader" aria-hidden="true">
+  <img class="preloader-logo" src="/images/logo.png" alt="" width="64" height="64" />
+  <div class="preloader-count" id="preload-count">0%</div>
+</div>
+<div class="cur-dot" id="curDot" aria-hidden="true"></div>
+<div class="cur-ring" id="curRing" aria-hidden="true"></div>
+
+<!-- GSAP is optional; the site is fully functional without it. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+<script is:inline>
+function initSocialBeelines() {
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasGSAP = typeof window.gsap !== 'undefined';
+  if (hasGSAP) { gsap.registerPlugin(ScrollTrigger); }
+
+  /* Preloader — never allowed to block the site (GSAP loads from a CDN and may
+     be slow or unavailable; content must show regardless). */
+  var preloader = document.getElementById('preloader');
+  var pct = document.getElementById('preload-count');
+  var preloadDone = false;
+  function finishPreload() {
+    if (preloadDone) return;
+    preloadDone = true;
+    if (!preloader) { runEntrance(); return; }
+    preloader.style.transition = 'opacity .7s ease, transform .8s ease';
+    preloader.style.opacity = '0';
+    preloader.style.transform = 'translateY(-6%)';
+    setTimeout(function () { preloader.style.display = 'none'; runEntrance(); }, 750);
+  }
+  // Hard failsafe: force-hide after 2.5s no matter what.
+  setTimeout(finishPreload, 2500);
+  if (reduceMotion) { if (pct) pct.textContent = '100%'; finishPreload(); }
+  else {
+    var n = 0;
+    var pTimer = setInterval(function () {
+      n += Math.ceil(Math.random() * 22);
+      if (n >= 100) { n = 100; clearInterval(pTimer); if (pct) pct.textContent = '100%'; setTimeout(finishPreload, 200); }
+      else if (pct) { pct.textContent = n + '%'; }
+    }, 80);
+  }
+
+  /* Custom cursor (pointer devices only) */
+  var dot = document.getElementById('curDot');
+  var ring = document.getElementById('curRing');
+  if (dot && ring && window.matchMedia('(min-width: 861px)').matches) {
+    var mx = 0, my = 0, rx = 0, ry = 0;
+    window.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; dot.style.left = mx + 'px'; dot.style.top = my + 'px'; });
+    (function loop() { rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(loop); })();
+    document.querySelectorAll('[data-hover]').forEach(function (el) {
+      el.addEventListener('mouseenter', function () { ring.classList.add('grow'); });
+      el.addEventListener('mouseleave', function () { ring.classList.remove('grow'); });
+    });
+  }
+
+  /* Magnetic buttons */
+  if (!reduceMotion) {
+    document.querySelectorAll('[data-magnetic]').forEach(function (el) {
+      el.addEventListener('mousemove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.transform = 'translate(' + (e.clientX - r.left - r.width / 2) * 0.35 + 'px,' + (e.clientY - r.top - r.height / 2) * 0.35 + 'px)';
+      });
+      el.addEventListener('mouseleave', function () {
+        el.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1)';
+        el.style.transform = 'translate(0,0)';
+        setTimeout(function () { el.style.transition = ''; }, 500);
+      });
+    });
+  }
+
+  /* Hero floating shapes */
+  var heroBg = document.getElementById('heroBg');
+  if (heroBg) {
+    var shapeDefs = [
+      { cls: 'dash-circle', w: 260, h: 260, top: '8%', left: '72%', depth: 22 },
+      { cls: 'dash-circle', w: 130, h: 130, top: '62%', left: '6%', depth: 34 },
+      { cls: 'solid-dot', w: 14, h: 14, top: '22%', left: '14%', depth: 50 },
+      { cls: 'solid-dot', w: 10, h: 10, top: '78%', left: '82%', depth: 44 },
+      { cls: 'dash-circle', w: 70, h: 70, top: '40%', left: '88%', depth: 60 }
+    ];
+    shapeDefs.forEach(function (s) {
+      var d = document.createElement('div');
+      d.className = 'float-shape ' + s.cls;
+      d.style.width = s.w + 'px'; d.style.height = s.h + 'px'; d.style.top = s.top; d.style.left = s.left;
+      d.dataset.depth = s.depth; heroBg.appendChild(d);
+    });
+    if (!reduceMotion) {
+      window.addEventListener('mousemove', function (e) {
+        var cx = (e.clientX / window.innerWidth - 0.5), cy = (e.clientY / window.innerHeight - 0.5);
+        heroBg.querySelectorAll('.float-shape').forEach(function (el) {
+          var depth = parseFloat(el.dataset.depth || 20);
+          el.style.transform = 'translate(' + (cx * depth) + 'px,' + (cy * depth) + 'px)';
+        });
+      });
+    }
+  }
+
+  /* Hero title reveal */
+  if (hasGSAP && !reduceMotion) { gsap.set('#heroTitle .word', { yPercent: 120, opacity: 0 }); }
+  function runEntrance() {
+    if (!hasGSAP || reduceMotion) { document.querySelectorAll('#heroTitle .word').forEach(function (w) { w.style.opacity = 1; }); return; }
+    gsap.timeline()
+      .to('#heroTitle .word', { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.05, ease: 'power4.out' })
+      .from('.hero-eyebrow', { opacity: 0, y: 14, duration: .6, ease: 'power2.out' }, 0)
+      .from('.hero-desc, .hero-cta', { opacity: 0, y: 16, duration: .7, stagger: .08, ease: 'power2.out' }, '-=0.6');
+  }
+
+  /* Scroll reveals */
+  if (hasGSAP && !reduceMotion) {
+    document.querySelectorAll('.reveal-inner').forEach(function (el) {
+      gsap.fromTo(el, { yPercent: 110 }, { yPercent: 0, duration: 1, ease: 'power4.out', scrollTrigger: { trigger: el, start: 'top 90%' } });
+    });
+    gsap.utils.toArray('.section-note, .why-panel, .p-item, .service-row, .pkg-card').forEach(function (el) {
+      gsap.fromTo(el, { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: .9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 92%' } });
+    });
+  }
+
+  /* Service accordion (click + keyboard via native <button>) */
+  var rows = document.querySelectorAll('[data-service-row]');
+  rows.forEach(function (row) {
+    row.addEventListener('click', function () {
+      var wasOpen = row.classList.contains('open');
+      rows.forEach(function (r) { r.classList.remove('open'); r.setAttribute('aria-expanded', 'false'); });
+      if (!wasOpen) { row.classList.add('open'); row.setAttribute('aria-expanded', 'true'); }
+    });
+  });
+
+  /* Pinned process */
+  var stepEls = document.querySelectorAll('.process-step');
+  var dotEls = document.querySelectorAll('.process-dots span');
+  var fillEl = document.getElementById('processFill');
+  if (stepEls.length) {
+    function setActiveStep(idx, prog) {
+      stepEls.forEach(function (el, i) { el.style.opacity = (i === idx) ? 1 : 0; el.style.transform = (i === idx) ? 'translateY(0)' : 'translateY(14px)'; });
+      dotEls.forEach(function (el, i) { el.classList.toggle('active', i === idx); });
+      if (fillEl) fillEl.style.width = (prog * 100) + '%';
+    }
+    if (reduceMotion || !hasGSAP) { stepEls.forEach(function (el) { el.style.opacity = 1; el.style.position = 'static'; }); dotEls.forEach(function (el) { el.classList.add('active'); }); }
+    else {
+      setActiveStep(0, 0);
+      ScrollTrigger.create({
+        trigger: '.process-pin', start: 'top top', end: 'bottom bottom',
+        onUpdate: function (self) { setActiveStep(Math.min(stepEls.length - 1, Math.floor(self.progress * stepEls.length)), self.progress); }
+      });
+    }
+  }
+
+  /* Testimonial slider */
+  var slides = document.querySelectorAll('.test-slide');
+  if (slides.length) {
+    var testIdx = 0;
+    var nameEl = document.getElementById('testName'), roleEl = document.getElementById('testRole'), avEl = document.getElementById('testAvatar');
+    function renderTest() {
+      slides.forEach(function (s, i) { s.classList.toggle('active', i === testIdx); });
+      var cur = slides[testIdx];
+      if (nameEl) nameEl.textContent = cur.dataset.name || '';
+      if (roleEl) roleEl.textContent = cur.dataset.role || '';
+      if (avEl) avEl.textContent = (cur.dataset.name || 'S').charAt(0);
+    }
+    var prevBtn = document.getElementById('testPrev'), nextBtn = document.getElementById('testNext');
+    if (prevBtn) prevBtn.addEventListener('click', function () { testIdx = (testIdx - 1 + slides.length) % slides.length; renderTest(); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { testIdx = (testIdx + 1) % slides.length; renderTest(); });
+    if (slides.length > 1 && !reduceMotion) { setInterval(function () { testIdx = (testIdx + 1) % slides.length; renderTest(); }, 6500); }
+  }
+
+  /* Lead form validation (client-side; server validation via Netlify) */
+  var form = document.querySelector('[data-lead-form]');
+  if (form) {
+    var statusEl = form.querySelector('[data-form-status]');
+    var allowed = ['Monthly', 'Quarterly', '6 Months'];
+    function setInvalid(field, on) { if (field) field.closest('.field').classList.toggle('invalid', on); }
+    form.addEventListener('submit', function (e) {
+      var ok = true;
+      form.querySelectorAll('[required]').forEach(function (el) {
+        var valid = el.value && el.value.trim().length > 0;
+        if (el.type === 'email') { valid = valid && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value); }
+        if (el.name === 'preferred_duration') { valid = allowed.indexOf(el.value) !== -1; }
+        setInvalid(el, !valid); if (!valid) ok = false;
+      });
+      if (!ok) {
+        e.preventDefault();
+        if (statusEl) { statusEl.textContent = 'Please fix the highlighted fields and try again.'; statusEl.className = 'form-status err'; }
+        var firstBad = form.querySelector('.field.invalid input, .field.invalid select');
+        if (firstBad) firstBad.focus();
+      } else if (statusEl) { statusEl.textContent = 'Sending your enquiry…'; statusEl.className = 'form-status'; }
+    });
+    if (new URLSearchParams(window.location.search).has('lead-success')) {
+      if (statusEl) { statusEl.textContent = 'Thanks — your enquiry has been sent. We\'ll be in touch soon.'; statusEl.className = 'form-status ok'; }
+    }
+  }
+}
+
+// Run as soon as the DOM is ready — do NOT wait for the (CDN-dependent) load event.
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSocialBeelines);
+} else {
+  initSocialBeelines();
+}
+</script>

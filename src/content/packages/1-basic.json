@@ -1,0 +1,15 @@
+{
+  "order": 1,
+  "name": "Basic",
+  "priceLabel": "₹9,000",
+  "period": "month",
+  "isCustom": false,
+  "featured": false,
+  "features": [
+    "A starting point for getting online",
+    "Core social media management",
+    "Graphic design essentials",
+    "Scope customized to your needs"
+  ],
+  "ctaLabel": "Enquire"
+}

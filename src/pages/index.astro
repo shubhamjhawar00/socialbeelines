@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
+import Services from '../components/Services.astro';
+import Process from '../components/Process.astro';
+import Packages from '../components/Packages.astro';
+import Portfolio from '../components/Portfolio.astro';
+import WhyUs from '../components/WhyUs.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import Footer from '../components/Footer.astro';
+import SiteInteractions from '../components/SiteInteractions.astro';
+import { loadSiteContent } from '../lib/content';
+
+const c = await loadSiteContent();
+---
+<BaseLayout>
+  <SiteInteractions />
+  <Nav ctaLabel={c.hero.ctaLabel} ctaHref={c.hero.ctaHref} />
+  <main id="top">
+    <Hero hero={c.hero} />
+    <Marquee items={c.marquee.items} />
+    <Services services={c.services} />
+    <Process process={c.process} />
+    <Packages packages={c.packages} />
+    <Portfolio portfolio={c.portfolio} />
+    <WhyUs whyus={c.whyus} />
+    <Testimonials testimonials={c.testimonials} />
+    <ContactCTA contact={c.contact} />
+  </main>
+  <Footer contact={c.contact} social={c.social} />
+</BaseLayout>

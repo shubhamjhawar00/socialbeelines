@@ -1,0 +1,47 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+}
+const { title, description, image, article = false } = Astro.props;
+
+// Pull SEO defaults from the Content_Model.
+import { getEntry } from 'astro:content';
+const seo = (await getEntry('seo', 'main'))!.data;
+
+const pageTitle = title
+  ? seo.titleTemplate.replace('%s', title)
+  : seo.siteTitle;
+const pageDesc = description || seo.defaultDescription;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImg = new URL(image || seo.ogImage || '/images/logo.png', Astro.site).toString();
+---
+<title>{pageTitle}</title>
+<meta name="description" content={pageDesc} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content={article ? 'article' : 'website'} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDesc} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImg} />
+<meta property="og:site_name" content="Social Beelines" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDesc} />
+<meta name="twitter:image" content={ogImg} />
+
+{seo.analyticsId && (
+  <Fragment>
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${seo.analyticsId}`}></script>
+    <script is:inline define:vars={{ id: seo.analyticsId }} set:html={`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', id);
+    `} />
+  </Fragment>
+)}

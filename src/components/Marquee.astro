@@ -1,0 +1,10 @@
+---
+export interface Props { items: string[]; }
+const { items } = Astro.props;
+const doubled = [...items, ...items];
+---
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    {doubled.map((item) => <span>{item} <i></i></span>)}
+  </div>
+</div>

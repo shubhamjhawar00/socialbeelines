@@ -1,0 +1,23 @@
+---
+export interface Props { ctaLabel?: string; ctaHref?: string; }
+const { ctaLabel = 'Start a project', ctaHref = '#contact' } = Astro.props;
+const links = [
+  { href: '#services', label: 'Services' },
+  { href: '#process', label: 'Process' },
+  { href: '#work', label: 'Work' },
+  { href: '#why', label: 'Why Us' },
+  { href: '/blog', label: 'Blog' },
+];
+---
+<header>
+  <a href="/#top" class="brand" data-hover>
+    <img src="/images/logo.png" alt="Social Beelines logo" width="34" height="34" />
+    <span>Social Beelines</span>
+  </a>
+  <nav class="links" aria-label="Primary">
+    {links.map((l) => <a href={l.href} data-hover>{l.label}</a>)}
+  </nav>
+  <div class="magnetic" data-magnetic>
+    <a href={ctaHref} class="nav-cta" data-hover>{ctaLabel}</a>
+  </div>
+</header>

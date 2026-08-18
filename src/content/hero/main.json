@@ -1,0 +1,11 @@
+{
+  "eyebrow": "Social media & digital marketing agency",
+  "titleLines": [
+    { "words": [{ "text": "We" }, { "text": "grow" }, { "text": "brands" }] },
+    { "words": [{ "text": "the" }, { "text": "beeline" }, { "text": "way.", "accent": true }] }
+  ],
+  "description": "Social Beelines helps businesses build and maintain a strong online presence through creative, social media, and digital marketing — all handled under one team.",
+  "ctaLabel": "Start a project",
+  "ctaHref": "#contact",
+  "heroImage": ""
+}

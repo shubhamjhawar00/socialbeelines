@@ -1,0 +1,15 @@
+{
+  "order": 4,
+  "name": "Customized",
+  "priceLabel": "",
+  "period": "",
+  "isCustom": true,
+  "featured": false,
+  "features": [
+    "Built entirely around your requirement",
+    "Pick only the services you need",
+    "Flexible duration — monthly, quarterly or 6 months",
+    "Talk to us for a tailored quote"
+  ],
+  "ctaLabel": "Get a custom quote"
+}

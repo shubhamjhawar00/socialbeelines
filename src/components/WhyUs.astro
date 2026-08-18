@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+export interface Props { whyus: CollectionEntry<'whyus'>['data']; }
+const { whyus } = Astro.props;
+---
+<section id="why">
+  <div class="wrap">
+    <div class="why-grid">
+      <div class="why-copy">
+        <div class="kicker">{whyus.kicker}</div>
+        <h2 class="section-title reveal"><span class="reveal-inner">{whyus.heading}</span></h2>
+        <p>{whyus.body}</p>
+        <div class="why-stats">
+          {whyus.stats.map((s) => (
+            <div class="why-stat"><div class="num">{s.num}</div><div class="lbl">{s.label}</div></div>
+          ))}
+        </div>
+      </div>
+      <div class="why-panel">
+        <div class="why-panel-top">{whyus.panelTop}</div>
+        <h3>{whyus.panelHeadline}</h3>
+        <div class="why-panel-bottom">
+          <img src="/images/logo.png" alt="" width="30" height="30" />
+          <span>{whyus.panelNote}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

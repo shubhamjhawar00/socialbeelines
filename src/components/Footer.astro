@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from 'astro:content';
+export interface Props {
+  contact: CollectionEntry<'contact'>['data'];
+  social: CollectionEntry<'social'>['data'][];
+}
+const { contact, social } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="wrap">
+    <div class="footer-marquee" aria-hidden="true">
+      <div class="footer-marquee-track">
+        <span>SOCIAL BEELINES</span>
+        <img src="/images/logo.png" alt="" width="80" height="80" />
+        <span>SOCIAL BEELINES</span>
+        <img src="/images/logo.png" alt="" width="80" height="80" />
+        <span>SOCIAL BEELINES</span>
+        <img src="/images/logo.png" alt="" width="80" height="80" />
+      </div>
+    </div>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img src="/images/logo.png" alt="Social Beelines logo" width="32" height="32" />
+          Social Beelines
+        </div>
+        <p style="max-width:280px;color:var(--blue-70);font-weight:500;">{contact.footerBlurb}</p>
+      </div>
+      <div class="footer-col">
+        <h4>Studio</h4>
+        <a href="/#services" data-hover>Services</a>
+        <a href="/#work" data-hover>Work</a>
+        <a href="/#why" data-hover>Why Us</a>
+        <a href="/blog" data-hover>Blog</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href={`mailto:${contact.email}`} data-hover>{contact.email}</a>
+        <a href={contact.phoneHref} data-hover>{contact.phone}</a>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <div class="socials">
+          {social.map((s) => <a href={s.url} target="_blank" rel="noopener" data-hover aria-label={s.platform}>{s.label}</a>)}
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; {year} Social Beelines. All rights reserved.</span>
+      <span>Social media & digital marketing agency.</span>
+    </div>
+  </div>
+</footer>

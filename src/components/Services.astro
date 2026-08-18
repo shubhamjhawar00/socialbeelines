@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+export interface Props { services: CollectionEntry<'services'>['data'][]; }
+const { services } = Astro.props;
+const arrow = 'M7 17L17 7M17 7H8M17 7V16';
+---
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">What we do</div>
+        <h2 class="section-title reveal"><span class="reveal-inner">Ten services, one team.</span></h2>
+      </div>
+      <p class="section-note">Every creative and digital requirement handled under one roof — kept consistent across your brand and social presence.</p>
+    </div>
+    <div class="services-list">
+      {services.map((s, i) => (
+        <button class="service-row" type="button" aria-expanded="false" data-service-row>
+          <div class="service-num">{String(i + 1).padStart(2, '0')}</div>
+          <div class="service-name">{s.name}</div>
+          <div class="service-tag">{s.tag}</div>
+          <div class="service-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d={arrow} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="service-detail"><div class="service-detail-inner">
+            <p>{s.description}</p>
+            <ul>{s.bullets.map((b) => <li>{b}</li>)}</ul>
+          </div></div>
+        </button>
+      ))}
+    </div>
+  </div>
+</section>
