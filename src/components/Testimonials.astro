@@ -4,32 +4,46 @@ export interface Props { testimonials: CollectionEntry<'testimonials'>['data'][]
 const { testimonials } = Astro.props;
 const prev = 'M15 18L9 12L15 6';
 const next = 'M9 18L15 12L9 6';
+const stars = (n: number) => '★★★★★☆☆☆☆☆'.slice(5 - Math.round(n), 10 - Math.round(n));
 ---
 <section id="testimonials">
   <div class="wrap test-wrap">
-    <div class="kicker">In their words</div>
+    <div class="kicker">What our clients say</div>
+    <h2 class="test-title">Built on real partnerships</h2>
     <div class="test-quote-mark" aria-hidden="true">&ldquo;</div>
     <div id="testSlides" aria-live="polite">
       {testimonials.map((t, i) => (
-        <div class:list={['test-slide', { active: i === 0 }]} data-i={i} data-name={t.personName} data-role={t.personRole}>
+        <div class:list={['test-slide', { active: i === 0 }]} data-i={i}>
+          <div class="test-rating" aria-label={`${t.rating} out of 5 stars`}>
+            <span class="test-stars" aria-hidden="true">{stars(t.rating)}</span>
+            <span class="test-rating-num">{t.rating.toFixed(1)}</span>
+          </div>
           <p class="test-quote">{t.quote}</p>
+          <div class="test-person">
+            <div class="test-avatar">
+              {t.avatarImage
+                ? <img src={t.avatarImage} alt={t.personName} width="52" height="52" />
+                : (t.personName?.charAt(0) ?? 'S')}
+            </div>
+            <div class="test-person-meta">
+              <div class="test-person-name">{t.personName}</div>
+              <div class="test-person-role">{t.personRole}</div>
+            </div>
+            {t.source && (
+              <span class="test-source" title={t.source}>
+                <svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16"><path fill="currentColor" d="M12 11v2.9h4.1c-.18 1.06-1.35 3.12-4.1 3.12-2.47 0-4.48-2.04-4.48-4.55S9.53 7.92 12 7.92c1.4 0 2.34.6 2.88 1.11l1.96-1.89C15.6 6.02 13.98 5.3 12 5.3 8.24 5.3 5.2 8.34 5.2 12.1s3.04 6.8 6.8 6.8c3.93 0 6.53-2.76 6.53-6.65 0-.45-.05-.79-.11-1.13H12z"/></svg>
+                {t.source}
+              </span>
+            )}
+          </div>
         </div>
       ))}
     </div>
-    <div class="test-foot">
-      <div class="test-person">
-        <div class="test-avatar" id="testAvatar">{testimonials[0]?.personName?.charAt(0) ?? 'S'}</div>
-        <div>
-          <div class="test-person-name" id="testName">{testimonials[0]?.personName}</div>
-          <div class="test-person-role" id="testRole">{testimonials[0]?.personRole}</div>
-        </div>
+    {testimonials.length > 1 && (
+      <div class="test-nav">
+        <button id="testPrev" type="button" aria-label="Previous testimonial" data-hover><svg viewBox="0 0 24 24" fill="none"><path d={prev} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button id="testNext" type="button" aria-label="Next testimonial" data-hover><svg viewBox="0 0 24 24" fill="none"><path d={next} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
-      {testimonials.length > 1 && (
-        <div class="test-nav">
-          <button id="testPrev" type="button" aria-label="Previous testimonial" data-hover><svg viewBox="0 0 24 24" fill="none"><path d={prev} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <button id="testNext" type="button" aria-label="Next testimonial" data-hover><svg viewBox="0 0 24 24" fill="none"><path d={next} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        </div>
-      )}
-    </div>
+    )}
   </div>
 </section>

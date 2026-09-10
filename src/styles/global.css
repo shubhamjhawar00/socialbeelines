@@ -224,18 +224,24 @@ h2.section-title { font-size: clamp(38px, 5.2vw, 84px); font-weight: 900; letter
 
 /* Testimonials */
 .test-wrap { position: relative; }
-.test-quote-mark { font-size: 160px; font-weight: 900; color: var(--blue-10); line-height: .6; margin-bottom: -30px; }
+.test-title { font-size: clamp(28px, 4vw, 52px); font-weight: 900; letter-spacing: -.03em; line-height: 1.02; margin-top: 14px; max-width: 700px; }
+.test-quote-mark { font-size: 110px; font-weight: 900; color: var(--blue-10); line-height: .6; margin: 26px 0 -18px; }
 .test-slide { display: none; }
-.test-slide.active { display: block; animation: fadein .8s var(--ease); }
+.test-slide.active { display: block; animation: fadein .7s var(--ease); }
 @keyframes fadein { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-.test-quote { font-size: clamp(26px, 3.6vw, 46px); font-weight: 700; letter-spacing: -.015em; line-height: 1.3; max-width: 1050px; }
-.test-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 50px; flex-wrap: wrap; gap: 20px; }
-.test-person { display: flex; align-items: center; gap: 16px; }
-.test-avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--blue-10); border: 1px solid var(--blue-30); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--blue); overflow: hidden; }
+.test-rating { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.test-stars { color: #f5a623; font-size: 20px; letter-spacing: 2px; }
+.test-rating-num { font-weight: 800; font-size: 14px; color: var(--blue); }
+.test-quote { font-size: clamp(17px, 1.7vw, 23px); font-weight: 600; letter-spacing: -.005em; line-height: 1.6; max-width: 900px; color: var(--blue-90); }
+.test-person { display: flex; align-items: center; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
+.test-person-meta { margin-right: auto; }
+.test-avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--blue-10); border: 1px solid var(--blue-30); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--blue); overflow: hidden; flex: none; }
 .test-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .test-person-name { font-weight: 800; font-size: 15px; }
 .test-person-role { font-size: 13px; color: var(--blue-60); font-weight: 600; }
-.test-nav { display: flex; gap: 14px; }
+.test-source { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 700; color: var(--blue-70); background: var(--blue-10); border: 1px solid var(--blue-20); border-radius: 100px; padding: 7px 14px; }
+.test-source svg { color: #4285f4; }
+.test-nav { display: flex; gap: 14px; margin-top: 40px; }
 .test-nav button { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--blue-30); display: flex; align-items: center; justify-content: center; transition: all .3s var(--ease); }
 .test-nav button:hover { background: var(--blue); border-color: var(--blue); }
 .test-nav button:hover svg path { stroke: var(--cream); }
@@ -276,10 +282,10 @@ h2.section-title { font-size: clamp(38px, 5.2vw, 84px); font-weight: 900; letter
 
 /* Footer */
 footer { padding: 100px 0 40px; }
-.footer-marquee { overflow: hidden; border-bottom: 1px solid var(--blue-20); padding-bottom: 60px; margin-bottom: 60px; }
-.footer-marquee-track { display: flex; gap: 60px; width: max-content; animation: marquee 22s linear infinite; align-items: center; }
-.footer-marquee-track span { font-size: clamp(60px, 11vw, 160px); font-weight: 900; letter-spacing: -.03em; color: var(--blue); }
-.footer-marquee-track img { width: 80px; height: 80px; }
+.footer-marquee { overflow: hidden; border-bottom: 1px solid var(--blue-20); padding-bottom: 36px; margin-bottom: 48px; }
+.footer-marquee-track { display: flex; gap: 40px; width: max-content; animation: marquee 26s linear infinite; align-items: center; }
+.footer-marquee-track span { font-size: clamp(30px, 5.5vw, 72px); font-weight: 900; letter-spacing: -.03em; color: var(--blue); }
+.footer-marquee-track img { width: 44px; height: 44px; }
 .footer-grid { display: grid; grid-template-columns: 1.3fr .8fr .8fr .8fr; gap: 40px; }
 .footer-col h4 { font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--blue-50); margin-bottom: 22px; }
 .footer-col a, .footer-col p { display: block; font-size: 15px; font-weight: 600; color: var(--blue-80); margin-bottom: 12px; }

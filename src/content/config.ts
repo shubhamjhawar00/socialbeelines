@@ -110,6 +110,8 @@ const testimonials = defineCollection({
     quote: z.string(),
     personName: z.string(),
     personRole: z.string(),
+    rating: z.number().min(0).max(5).default(5),
+    source: z.string().default('Google Review'),
     avatarImage: z.string().optional(),
   }),
 });
